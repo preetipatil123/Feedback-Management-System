@@ -1,0 +1,82 @@
+<%@ page import ="java.sql.*" %>
+<html>
+<head>
+<title>Feedback system </title>
+
+<style>
+*{margin:4px;padding:4px;font-size:40px;}
+body{font-family:Arail;background:linear-gradient(to right,#06beb6,#48b1bf)}
+h1 {
+  background: linear-gradient(to right, #414141,#000000);
+  color: white;
+  width: 50%;
+  border-radius: 30px;
+  padding: 10px;
+  margin: 20px auto;
+  text-align: center;
+}
+.nav {
+  background: linear-gradient(to right, #414141,#000000);
+  display: flex;
+  justify-content: center;
+ border-radius: 40px;
+  padding: 8px;
+}
+.nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+</style>
+</head>
+<body>
+<center>
+<div class="nav">
+<a href="view.jsp">View</a>
+<a href="delete.jsp">Delete</a>
+<a href="logout.jsp">Logout</a>
+</div>
+<h1>view page</h1>
+<table border="5" style="width:50%;">
+<tr>
+<th>Name</th>
+<th>Feedback</th>
+<th>Email</th>
+<th>Rating</th>
+</tr>
+
+<%
+try
+{
+DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+String url="jdbc:mysql://localhost:3306/ss_july26";
+Connection con=DriverManager.getConnection(url,"root","abc123");
+String sql="select * from feedback";
+PreparedStatement pst=con.prepareStatement(sql);
+ResultSet rs=pst.executeQuery();
+
+while(rs.next())
+{
+%>
+<tr style="text-align:center;">
+<td> <%=rs.getString(1) %></td>
+<td> <%=rs.getString(2) %></td>
+<td> <%=rs.getString(3) %></td>
+<td> <%=rs.getInt(4) %></td>
+</tr>
+<%
+}
+con.close();
+}
+catch(SQLException e)
+{
+out.println("sql issue"+e);
+}
+%>
+</table>
+</center>
+</body>
+</html>
